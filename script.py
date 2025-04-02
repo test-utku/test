@@ -1,31 +1,27 @@
-import redis
+# Returns an edit distance which satisfies all the rules of a metric space.
+# The inputs are both strings and the output is a non-negative integer.
+# The possible edits are delete, insert, and replace.
+def minDistance(word1, word2):
 
-def redis_operations():
-    # Create a Redis client
-    redis_client = redis.Redis(host='localhost', port=6379, db=0)
+    m = len(word1)
+    n = len(word2)
 
-    # Set a key-value pair
-    redis_client.set('greeting', 'Hello, Redis!')
+    # Initialize dp array of size (m+1) x (n+1)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
 
-    # Get the value for a key
-    value = redis_client.get('greeting')
-    print(value.decode('utf-8'))  # Decode bytes to string
+    # Base cases: Transforming from empty string to word1 and word2
+    for i in range(m + 1):
+        dp[i][0] = i
 
-    # Increment a counter
-    redis_client.incr('visitor_count')
+    for j in range(n + 1):
+        dp[0][j] = j
 
-    # Get the current count
-    count = redis_client.get('visitor_count')
-    print(f"Visitor count: {count.decode('utf-8')}")
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if word1[i - 1] == word2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1]
+            dp[i][j] = min(dp[i - 1][j] + 1,  # Delete
+                        dp[i][j - 1] + 1,     # Insert
+                        dp[i - 1][j - 1] + 1) # Replace
 
-    # Delete a key
-    redis_client.delete('greeting')
-
-    # Check if a key exists
-    exists = redis_client.exists('greeting')
-    print(f"Does 'greeting' exist? {exists}")
-
-# Call the function to execute Redis operations
-if __name__ == "__main__":
-    redis_operations()
-
+    return dp[m][n]
