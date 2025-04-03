@@ -1,3 +1,5 @@
-# Examples of Benchify in Action 🥷🏼
+# LeetCode Example
 
-This repository contains interesting examples of how customers use Benchify to analyze their code.  If you have an interesting use-case for us, please let us know!
+In this example, Benchify debugs a faulty implementation of an edit distance algorithm (based on dynamic programming) for a LeetCode problem.  This is a simple example meant for demos and presentations.
+
+Read the report [here](https://github.com/Benchify/benchify-examples/pull/76).
